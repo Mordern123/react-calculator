@@ -84,6 +84,8 @@ function reducer(state, { type, payload }) {
         operation: null,
         curOperand: evaluate(state),
       };
+      default:
+        throw new Error('case wrong')
   }
 }
 
@@ -105,6 +107,11 @@ function evaluate({ curOperand, preOperand, operation }) {
     case "÷":
       computation = prev / curv;
       break;
+    case "%":
+      computation = prev % curv;
+      break;
+    default:
+      throw new Error('case wrong')
   }
   return computation.toString();
 }
@@ -140,18 +147,17 @@ function App() {
       >
         AC
       </button>
-      <button onClick={() => dispatch({ type: ACTIONS.DELETE_DIGIT })}>
-        DEL
+      <button onClick={() => dispatch({ type: ACTIONS.DELETE_DIGIT })}>DEL
       </button>
-      <OperationButton operation="÷" dispatch={dispatch} />
+      <OperationButton operation="%" dispatch={dispatch} />
       <DigitButton digit="1" dispatch={dispatch} />
       <DigitButton digit="2" dispatch={dispatch} />
       <DigitButton digit="3" dispatch={dispatch} />
-      <OperationButton operation="*" dispatch={dispatch} />
+      <OperationButton operation="÷" dispatch={dispatch} />
       <DigitButton digit="4" dispatch={dispatch} />
       <DigitButton digit="5" dispatch={dispatch} />
       <DigitButton digit="6" dispatch={dispatch} />
-      <OperationButton operation="+" dispatch={dispatch} />
+      <OperationButton operation="*" dispatch={dispatch} />
       <DigitButton digit="7" dispatch={dispatch} />
       <DigitButton digit="8" dispatch={dispatch} />
       <DigitButton digit="9" dispatch={dispatch} />
@@ -159,11 +165,11 @@ function App() {
       <DigitButton digit="." dispatch={dispatch} />
       <DigitButton digit="0" dispatch={dispatch} />
       <button
-        className="span-two"
         onClick={() => dispatch({ type: ACTIONS.EVALUATE })}
       >
         =
       </button>
+      <OperationButton operation="+" dispatch={dispatch} />
     </div>
   );
 }
